@@ -1,12 +1,14 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import Header from './components/Header'
-import Bar from './components/Bar'
-import Display from './components/Display'
+import Grid from './components/Grid'
+import List from './components/List'
+import Details from './components/Details'
+import {Switch, Route} from "react-router-dom"
 
 const App = () =>{
   const[data,setData] = useState([])
-  const [grid,setGrid] = useState(true)
+  const[menuColors,setMenuColors] = useState({grid:"black",list:"green"})
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
   const[errorMessage,setErrorMessage] = useState("")
@@ -17,6 +19,10 @@ const App = () =>{
 
 
   const hook = () => {
+    const colors = localStorage.getItem("colors")
+    if(colors){
+      setMenuColors(JSON.parse(colors))
+    }
     axios.get(proxy+url)
       .then(response =>{
         if(response.data.sucess !== false){
@@ -35,11 +41,15 @@ const App = () =>{
 
   useEffect(hook,[])
 
-  const toggler = (event) => {
+  useEffect(()=>{
+    localStorage.setItem("colors",JSON.stringify(menuColors))
+  })
+
+  const toggleSelected = (event) => {
     if(event.target.id === "list"){
-      setGrid(false)
+      setMenuColors({grid:"green",list:"black"})
     }else{
-      setGrid(true)
+      setMenuColors({grid:"black",list:"green"})
     }
   }
 
@@ -49,14 +59,29 @@ const App = () =>{
 
   const viewHome = (event) => {
     setDetails(false)
+    setMenuColors({grid:"black",list:"green"})
+  }
+
+  const goBack = (event) => {
+    setDetails(false)
+    setMenuColors(JSON.parse(localStorage.getItem("colors")))
   }
 
   return(
     <div className="div-background">
       <div className="container mt-0">
-        <Header viewHome={(event)=>viewHome(event)}/>
-        <Bar toggler={(event)=>toggler(event)} grid={grid} details={details} />
-        <Display isLoading={isLoading} error={error} errorMessage={errorMessage} grid={grid} data={data} viewDetails={(event)=>viewDetails(event)} details={details}/>
+        <Header details={details} menuColors={menuColors} viewHome={(event)=>viewHome(event)} toggleSelected={(event)=>toggleSelected(event)}/>
+        <Switch>
+          <Route exact path="/">
+            <Grid isLoading={isLoading} data={data} error={error} errorMessage={errorMessage} viewDetails={(event)=>viewDetails(event)} details={details} goBack={(event)=>viewHome(event)}/>
+          </Route>
+          <Route path="/list">
+            <List isLoading={isLoading} data={data} error={error} errorMessage={errorMessage} viewDetails={(event)=>viewDetails(event)} details={details} goBack={(event)=>goBack(event)}/>
+          </Route>
+          <Route path="/:id">
+            <Details />
+          </Route>
+        </Switch>
       </div>
     </div>
   )
