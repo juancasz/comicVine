@@ -1,5 +1,6 @@
 import React from 'react'
 import Loading from './Loading'
+import Error from './Error'
 import GridElement from './GridElement'
 
 const Grid = ({isLoading,data,error, errorMessage,viewDetails,goBack}) => {
@@ -8,16 +9,12 @@ const Grid = ({isLoading,data,error, errorMessage,viewDetails,goBack}) => {
     }
 
     if(error){
-        return(
-            <div className = "row justify-content-center" style={{marginTop:"100px"}}>
-                <h1 style={{textAlign:"center"}}>{errorMessage}</h1>
-            </div>
-        )
+        return <Error errorMessage={errorMessage}/>
     }
 
     const gridMenu = data.map(comic => {
         return(
-            <div className="col-md-3" key={comic.id}>
+            <div className="col-md-3 col-sm-6 col-6" key={comic.id}>
                 <GridElement comic={comic} viewDetails={viewDetails} />    
             </div>
         ) 

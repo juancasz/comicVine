@@ -1,5 +1,6 @@
 import React from 'react'
 import Loading from './Loading'
+import Error from './Error'
 import ListElement from './ListElement'
 
 const List = ({isLoading,data,error, errorMessage,viewDetails,goBack}) => {
@@ -8,16 +9,12 @@ const List = ({isLoading,data,error, errorMessage,viewDetails,goBack}) => {
     }
 
     if(error){
-        return(
-            <div className = "row justify-content-center" style={{marginTop:"100px"}}>
-                <h1 style={{textAlign:"center"}}>{errorMessage}</h1>
-            </div>
-        )
+        return <Error errorMessage={errorMessage}/>
     }
 
     const ListMenu = data.map(comic => {
         return(
-            <div className="offset-md-1 col-md-10" key={comic.id}>
+            <div className="offset-md-1 col-md-10 col-sm-12 col-12" key={comic.id}>
                 <ListElement comic={comic} viewDetails={viewDetails}/>    
             </div>
         ) 

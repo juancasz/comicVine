@@ -10,9 +10,9 @@ const GridElement = ({comic,viewDetails}) => {
     const date = new Date(comic.date_added).toDateString().split(' ').slice(1).join(' ')
 
     return(
-        <Link id={comic.api_detail_url} to={`/${comic.id}`} style={{color:"black"}}>
-            <div className="card border-0 " onClick={viewDetails} >
-                <img className="card-img-top img-border" src={comic.image.original_url} alt="Comic Image" height="350"></img>
+        <Link to={`/${comic.id}`} onClick={viewDetails} id={comic.api_detail_url} style={{color:"black"}} >
+            <div className="card border-0 ">
+                <img className="img-fluid card-img-top img-border" src={comic.image.original_url} alt="Comic" height="350"></img>
                 <div className="card-body">
                     <h6 className="card-title" style={{textAlign:"center"}}>{comic.name} #{comic.issue_number}</h6>
                     <h6 className="card-subtitle mb-2 text-muted" style={{textAlign:"center"}}>{date}</h6>

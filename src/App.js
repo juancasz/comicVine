@@ -13,6 +13,7 @@ const App = () =>{
   const [error, setError] = useState(false)
   const[errorMessage,setErrorMessage] = useState("")
   const[details,setDetails]=useState(false)
+  const[urlDetails,setUrlDetails]=useState("")
   const api_key_comic = process.env.REACT_APP_API_KEY
   const proxy = "https://cors-anywhere.herokuapp.com/"
   const url = `https://comicvine.gamespot.com/api/issues/?api_key=${api_key_comic}&format=json&field_list=name,image,issue_number,date_added,id,api_detail_url`
@@ -55,6 +56,7 @@ const App = () =>{
 
   const viewDetails = (event) => {
     setDetails(true)
+    setUrlDetails(event.currentTarget.id)
   }
 
   const viewHome = (event) => {
@@ -79,7 +81,7 @@ const App = () =>{
             <List isLoading={isLoading} data={data} error={error} errorMessage={errorMessage} viewDetails={(event)=>viewDetails(event)} details={details} goBack={(event)=>goBack(event)}/>
           </Route>
           <Route path="/:id">
-            <Details />
+            <Details urlDetails={urlDetails}/>
           </Route>
         </Switch>
       </div>

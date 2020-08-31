@@ -21,10 +21,10 @@ const Header = ({details,menuColors,viewHome,toggleSelected}) => {
         <div>
             <Link to="/" onClick={viewHome} style={{textAlign:"center",color:"black"}} ><h1 style={{fontFamily:"Monospace"}}>ComicBook</h1></Link>
             <div className="row border-right border-left mt-4 div-header" >
-                <div className="col-md-2 ">
+                <div className="col-md-2 col-sm-12 col-12">
                     <p style={fontStyle}><b>Latest Issues</b></p>
                 </div>
-                <div className="offset-md-8 col-md-2 pl-4">
+                <div className="offset-md-7 col-md-2 col-sm-12 col-12">
                     <p style={fontStyle}>
                         &nbsp;&nbsp;
                         <Link to="/list" id="list" style={{color:colorList}} onClick={toggleSelected} ><BsList/>&nbsp;List</Link>
