@@ -24,12 +24,12 @@ const Header = ({details,menuColors,viewHome,toggleSelected}) => {
                 <div className="col-md-2 col-sm-12 col-12">
                     <p style={fontStyle}><b>Latest Issues</b></p>
                 </div>
-                <div className="offset-md-7 col-md-2 col-sm-12 col-12">
+                <div className="offset-md-8 offset-sm-8 col-md-2 col-sm-12 col-12">
                     <p style={fontStyle}>
                         &nbsp;&nbsp;
-                        <Link to="/list" id="list" style={{color:colorList}} onClick={toggleSelected} ><BsList/>&nbsp;List</Link>
-                        &nbsp;&nbsp;&nbsp;
-                        <Link to="/" id="grid" style={{color:colorGrid}} onClick={toggleSelected}><BsGrid3X3GapFill/>&nbsp;Grid</Link>
+                        <Link to="/list" id="list" style={{color:colorList}} onClick={toggleSelected} ><BsList/>List</Link>
+                        &nbsp;
+                        <Link to="/" id="grid" style={{color:colorGrid}} onClick={toggleSelected}><BsGrid3X3GapFill/>Grid</Link>
                     </p>
                 </div>
             </div>

@@ -1,9 +1,14 @@
-import React from 'react'
+import React,{ useEffect } from 'react'
 import Loading from './Loading'
 import Error from './Error'
 import ListElement from './ListElement'
 
 const List = ({isLoading,data,error, errorMessage,viewDetails,goBack}) => {
+
+    useEffect(()=>{
+        localStorage.setItem("urlDetails","")
+    })
+
     if(isLoading || data === undefined){
         return <Loading/>    
     }

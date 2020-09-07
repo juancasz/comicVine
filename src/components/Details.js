@@ -7,16 +7,20 @@ import axios from 'axios'
 const Details = ({urlDetails}) => {
     const api_key_comic = process.env.REACT_APP_API_KEY
     const proxy = "https://cors-anywhere.herokuapp.com/"
-    const url = `${urlDetails}?api_key=${api_key_comic}&format=json&field_list=image,character_credits,team_credits,location_credits`
+    let url = `${urlDetails}?api_key=${api_key_comic}&format=json&field_list=image,character_credits,team_credits,location_credits,concept_credits`
     const [data,setData] = useState([])
     const[dataCharImages,setDataCharImages] = useState([])
     const[dataTeamImages,setDataTeamImages] = useState([])
     const[dataLocationImages,setDataLocationImages] = useState([])
+    const[dataConceptImages,setDataConceptImages] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(false)
     const[errorMessage,setErrorMessage] = useState("")
 
     const hook = () => {
+        if(localStorage.getItem("urlDetails") !== ""){
+          url = localStorage.getItem("urlDetails")
+        }
         axios.get(proxy+url)
             .then(response => {
                 setData(response.data.results)
@@ -82,6 +86,26 @@ const Details = ({urlDetails}) => {
                     setErrorMessage(error.message)
                     console.log(error.message)
                 })
+
+                let promisesConcepts = []
+                response.data.results.concept_credits.forEach((concept)=>{
+                    const urlConcept = `${concept.api_detail_url}?api_key=${api_key_comic}&format=json&field_list=image` 
+                    promisesConcepts.push(axios.get(proxy+urlConcept))
+                })
+                Promise.all(promisesConcepts).then(responses =>{
+                    const urlsConcepts = []
+                    responses.forEach(response =>{
+                        urlsConcepts.push(response.data.results.image.original_url)
+                    })
+                    setDataConceptImages(urlsConcepts)
+                    console.log("sucess concepts")
+                })
+                .catch(error => {
+                    setError(true)
+                    setIsLoading(false)
+                    setErrorMessage(error.message)
+                    console.log(error.message)
+                })
             })
             .catch(error => {
                 setError(true)
@@ -92,6 +116,10 @@ const Details = ({urlDetails}) => {
     }
 
     useEffect(hook,[])
+
+    useEffect(()=>{
+        localStorage.setItem("urlDetails",url)
+      })
     
     if(isLoading || data === undefined || data.image === undefined || data.character_credits === undefined ){
         return <Loading/>    
@@ -100,7 +128,7 @@ const Details = ({urlDetails}) => {
     if(error){
         return <Error errorMessage={errorMessage}/>
     }
-    
+
     const characters = data.character_credits.map((character,index)=>{
         return <DataElement key={index} urlImage={dataCharImages[index]} name={character.name} />
     })
@@ -112,10 +140,17 @@ const Details = ({urlDetails}) => {
     const locations = data.location_credits.map((location,index)=>{
         return <DataElement key={index} urlImage={dataLocationImages[index]} name={location.name} />
     })
+
+    const concepts = data.concept_credits.map((concept,index)=>{
+        return <DataElement key={index} urlImage={dataConceptImages[index]} name={concept.name} />
+    })
     
     return(
-        <div className="row " style={{marginTop:"25px"}} >
-            <div className="col-md-7 col-sm-12 col-12">
+        <div className="row d-flex flex-nowrap" style={{marginTop:"25px"}} >
+            <div className="col-md-5 col-sm-12 col-12 ">
+                <img className="m-1 img-fluid" src={data.image.original_url} alt="Comic"></img>
+            </div>
+            <div className="col-md-7 col-sm-12 col-12 order-md-first">
                 <h4 className="border-headers" ><b>Characters</b></h4>
                 <div className="row">
                     {characters}
@@ -128,9 +163,10 @@ const Details = ({urlDetails}) => {
                 <div className="row">
                     {locations}
                 </div>
-            </div>
-            <div className="col-md-5 col-sm-12 col-12 order-sm-first order-first">
-                <img className="img-fluid m-1" src={data.image.original_url} alt="Comic"></img>
+                <h4 className="border-headers mt-5" ><b>Concepts</b></h4>
+                <div className="row">
+                    {concepts}
+                </div>
             </div>
         </div>
     )

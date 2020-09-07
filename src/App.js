@@ -24,6 +24,14 @@ const App = () =>{
     if(colors){
       setMenuColors(JSON.parse(colors))
     }
+    const details = localStorage.getItem("details")
+    if(details){
+      setDetails(details)
+    }
+    const urlDetails = localStorage.getItem("urlDetails")
+    if(urlDetails){
+      setUrlDetails(urlDetails)
+    }
     axios.get(proxy+url)
       .then(response =>{
         if(response.data.sucess !== false){
@@ -44,6 +52,7 @@ const App = () =>{
 
   useEffect(()=>{
     localStorage.setItem("colors",JSON.stringify(menuColors))
+    localStorage.setItem("details",details)
   })
 
   const toggleSelected = (event) => {
