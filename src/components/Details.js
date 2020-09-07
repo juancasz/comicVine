@@ -146,7 +146,7 @@ const Details = ({urlDetails}) => {
     })
     
     return(
-        <div className="row d-flex flex-nowrap" style={{marginTop:"25px"}} >
+        <div className="row " style={{marginTop:"25px"}} >
             <div className="col-md-5 col-sm-12 col-12 ">
                 <img className="m-1 img-fluid" src={data.image.original_url} alt="Comic"></img>
             </div>
