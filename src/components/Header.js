@@ -27,7 +27,7 @@ const Header = ({details,menuColors,viewHome,toggleSelected,setFilter}) => {
                 <div className="offset-md-5 col-md-2 col-sm-12 col-12 ">
                     <input type="text" id="searchFor" name="searchFor" placeholder="Search For.." onChange={setFilter}/>
                 </div>
-                <div className="col-md-2 col-sm-12 col-12 ml-1">
+                <div className="col-md-2 col-sm-12 col-12 ml-2">
                     <p style={fontStyle}>
                         &nbsp;&nbsp;
                         <Link to="/list" id="list" style={{color:colorList}} onClick={toggleSelected} ><BsList/>List</Link>
