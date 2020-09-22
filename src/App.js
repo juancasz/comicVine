@@ -14,6 +14,7 @@ const App = () =>{
   const[errorMessage,setErrorMessage] = useState("")
   const[details,setDetails]=useState(false)
   const[urlDetails,setUrlDetails]=useState("")
+  const[searchFor, setSearchFor] = useState("")
   const api_key_comic = process.env.REACT_APP_API_KEY
   const proxy = "https://cors-anywhere.herokuapp.com/"
   const url = `https://comicvine.gamespot.com/api/issues/?api_key=${api_key_comic}&format=json&field_list=name,image,issue_number,date_added,id,api_detail_url`
@@ -78,16 +79,20 @@ const App = () =>{
     setMenuColors(JSON.parse(localStorage.getItem("colors")))
   }
 
+  const setFilter = (event) => {
+    setSearchFor(event.target.value.toLowerCase())
+  }
+
   return(
     <div className="div-background">
       <div className="container mt-0">
-        <Header details={details} menuColors={menuColors} viewHome={(event)=>viewHome(event)} toggleSelected={(event)=>toggleSelected(event)}/>
+        <Header details={details} menuColors={menuColors} viewHome={(event)=>viewHome(event)} toggleSelected={(event)=>toggleSelected(event)} setFilter={setFilter}/>
         <Switch>
           <Route exact path="/">
-            <Grid isLoading={isLoading} data={data} error={error} errorMessage={errorMessage} viewDetails={(event)=>viewDetails(event)} details={details} goBack={(event)=>viewHome(event)}/>
+            <Grid isLoading={isLoading} data={data} error={error} errorMessage={errorMessage} viewDetails={(event)=>viewDetails(event)} details={details} goBack={(event)=>viewHome(event)} searchFor={searchFor}/>
           </Route>
           <Route path="/list">
-            <List isLoading={isLoading} data={data} error={error} errorMessage={errorMessage} viewDetails={(event)=>viewDetails(event)} details={details} goBack={(event)=>goBack(event)}/>
+            <List isLoading={isLoading} data={data} error={error} errorMessage={errorMessage} viewDetails={(event)=>viewDetails(event)} details={details} goBack={(event)=>goBack(event)} searchFor={searchFor}/>
           </Route>
           <Route path="/:id">
             <Details urlDetails={urlDetails}/>

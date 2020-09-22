@@ -3,7 +3,7 @@ import Loading from './Loading'
 import Error from './Error'
 import GridElement from './GridElement'
 
-const Grid = ({isLoading,data,error, errorMessage,viewDetails,goBack}) => {
+const Grid = ({isLoading,data,error, errorMessage,viewDetails,goBack,searchFor}) => {
 
     useEffect(()=>{
         localStorage.setItem("urlDetails","")
@@ -16,8 +16,26 @@ const Grid = ({isLoading,data,error, errorMessage,viewDetails,goBack}) => {
     if(error){
         return <Error errorMessage={errorMessage}/>
     }
+    
+    const comicsToDisplay = searchFor !== ""?
+                            data.filter(comic => {
+                                if(comic.name !== null){
+                                    if(comic.name.toLowerCase().includes(searchFor)){
+                                        return true
+                                    }
+                                }
+                                return false
+                            }) : data
 
-    const gridMenu = data.map(comic => {
+    if(comicsToDisplay.length === 0){
+        return(
+            <div className="row justify-content-center" style={{marginTop:"100px",height:"100vh"}} onLoad={goBack}>
+                <h1>Nothing Found</h1>
+            </div>    
+        ) 
+    }
+
+    const gridMenu = comicsToDisplay.map(comic => {
         return(
             <div className="col-md-3 col-sm-6 col-6" key={comic.id}>
                 <GridElement comic={comic} viewDetails={viewDetails} />    
