@@ -2,7 +2,8 @@
     margin: 0px,;
     padding: 0;
     background-color: #E8E8E8;
-    background-size: 100% 100%
+    background-size: 100% 100%;
+    min-height: 100vh;
 }
 
 .div-header{

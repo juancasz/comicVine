@@ -6,7 +6,7 @@ import axios from 'axios'
 
 const Details = ({urlDetails}) => {
     const api_key_comic = process.env.REACT_APP_API_KEY
-    const proxy = "https://cors-anywhere.herokuapp.com/"
+    const proxy = "https://cors-proxy-casz.herokuapp.com/"
     let url = `${urlDetails}?api_key=${api_key_comic}&format=json&field_list=image,character_credits,team_credits,location_credits,concept_credits`
     const [data,setData] = useState([])
     const[dataCharImages,setDataCharImages] = useState([])
@@ -18,6 +18,7 @@ const Details = ({urlDetails}) => {
     const[errorMessage,setErrorMessage] = useState("")
 
     const hook = () => {
+        let url = `${urlDetails}?api_key=${api_key_comic}&format=json&field_list=image,character_credits,team_credits,location_credits,concept_credits`
         if(localStorage.getItem("urlDetails") !== ""){
           url = localStorage.getItem("urlDetails")
         }
@@ -115,11 +116,11 @@ const Details = ({urlDetails}) => {
             })
     }
 
-    useEffect(hook,[])
+    useEffect(hook,[url,api_key_comic,urlDetails])
 
     useEffect(()=>{
         localStorage.setItem("urlDetails",url)
-      })
+    },[url])
     
     if(isLoading || data === undefined || data.image === undefined || data.character_credits === undefined ){
         return <Loading/>    
