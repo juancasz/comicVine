@@ -130,21 +130,21 @@ const Details = ({urlDetails}) => {
         return <Error errorMessage={errorMessage}/>
     }
 
-    const characters = data.character_credits.map((character,index)=>{
+    const characters = data?data.character_credits.map((character,index)=>{
         return <DataElement key={index} urlImage={dataCharImages[index]} name={character.name} />
-    })
+    }):[]
 
-    const teams = data.team_credits.map((team,index)=>{
+    const teams = data?data.team_credits.map((team,index)=>{
         return <DataElement key={index} urlImage={dataTeamImages[index]} name={team.name} />
-    })
+    }):[]
 
-    const locations = data.location_credits.map((location,index)=>{
+    const locations = data?data.location_credits.map((location,index)=>{
         return <DataElement key={index} urlImage={dataLocationImages[index]} name={location.name} />
-    })
+    }):[]
 
-    const concepts = data.concept_credits.map((concept,index)=>{
+    const concepts = data?data.concept_credits.map((concept,index)=>{
         return <DataElement key={index} urlImage={dataConceptImages[index]} name={concept.name} />
-    })
+    }):[]
     
     return(
         <div className="row " style={{marginTop:"25px"}} >
