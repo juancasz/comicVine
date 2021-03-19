@@ -120,7 +120,7 @@ const Details = ({urlDetails}) => {
 
     useEffect(()=>{
         localStorage.setItem("urlDetails",url)
-    },[url])
+    })
     
     if(isLoading || data === undefined || data.image === undefined || data.character_credits === undefined ){
         return <Loading/>    
