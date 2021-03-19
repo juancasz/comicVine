@@ -18,10 +18,6 @@ const Details = ({urlDetails}) => {
     const[errorMessage,setErrorMessage] = useState("")
 
     const hook = () => {
-        let url = `${urlDetails}?api_key=${api_key_comic}&format=json&field_list=image,character_credits,team_credits,location_credits,concept_credits`
-        if(localStorage.getItem("urlDetails") !== ""){
-          url = localStorage.getItem("urlDetails")
-        }
         axios.get(proxy+url)
             .then(response => {
                 setData(response.data.results)
