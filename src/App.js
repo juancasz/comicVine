@@ -13,12 +13,12 @@ const App = () =>{
   const [error, setError] = useState(false)
   const[errorMessage,setErrorMessage] = useState("")
   const[details,setDetails]=useState(false)
-  const[urlDetails,setUrlDetails]=useState("")
+  //const[urlDetails,setUrlDetails]=useState("")
   const[searchFor, setSearchFor] = useState("")
   const api_key_comic = process.env.REACT_APP_API_KEY
   const proxy = "https://cors-proxy-casz.herokuapp.com/"
+  //const proxy = "https://cors-anywhere.herokuapp.com/"
   const url = `https://comicvine.gamespot.com/api/issues/?api_key=${api_key_comic}&format=json&field_list=name,image,issue_number,date_added,id,api_detail_url`
-
 
   const hook = () => {
     const colors = localStorage.getItem("colors")
@@ -29,10 +29,6 @@ const App = () =>{
     if(details){
       const isDetails = (details === 'true')
       setDetails(isDetails)
-    }
-    const urlDetails = localStorage.getItem("urlDetails")
-    if(urlDetails){
-      setUrlDetails(urlDetails)
     }
     axios.get(proxy+url)
       .then(response =>{
@@ -64,9 +60,12 @@ const App = () =>{
     }
   }
 
-  const viewDetails = (event) => {
+  const viewDetails = () => {
     setDetails(true)
-    setUrlDetails(event.currentTarget.id)
+  }
+
+  const hideBrowser = () => {
+    setDetails(true)
   }
 
   const viewHome = (event) => {
@@ -95,7 +94,7 @@ const App = () =>{
             <List isLoading={isLoading} data={data} error={error} errorMessage={errorMessage} viewDetails={viewDetails} details={details} goBack={goBack} searchFor={searchFor}/>
           </Route>
           <Route path="/:id">
-            <Details urlDetails={urlDetails}/>
+            <Details hideBrowser={hideBrowser}/>
           </Route>
         </Switch>
       </div>

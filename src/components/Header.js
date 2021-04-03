@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import { BsList,BsGrid3X3GapFill } from "react-icons/bs"
 
 const Header = ({details,menuColors,viewHome,toggleSelected,setFilter}) => {
+    console.log(details)
     if(details){
         return(
             <div>
