@@ -8,8 +8,7 @@ import axios from 'axios'
 const Details = ({hideBrowser}) => {
     const api_key_comic = process.env.REACT_APP_API_KEY
     const idDetails = useParams().id
-    const proxy = "https://cors-proxy-casz.herokuapp.com/"
-    //const proxy = "https://cors-anywhere.herokuapp.com/"
+    const proxy = "https://cors-proxy.fly.dev/"
     //const [url,setUrl] = useState(`${urlDetails}?api_key=${api_key_comic}&format=json&field_list=image,character_credits,team_credits,location_credits,concept_credits`)
     const [data,setData] = useState([])
     const[dataCharImages,setDataCharImages] = useState([])
